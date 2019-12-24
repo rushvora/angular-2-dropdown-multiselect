@@ -67,10 +67,8 @@
             </div>
           </ng-container>
         </ng-container>
-        <span
-          *ngIf="settings.checkedStyle === 'checkboxes' || settings.checkedStyle === 'visual' || settings.checkedStyle === 'glyphicon' || settings.checkedStyle === 'fontawesome'"
-          [ngClass]="{'chunkyrow': settings.checkedStyle == 'visual' }" [class.disabled]="isCheckboxDisabled(option)"
-          [ngClass]="settings.itemClasses" [style.font-weight]="this.parents.indexOf(option.id)>=0?'bold':'normal'">
+        <span *ngIf="settings.checkedStyle !== 'feather'" [ngClass]="{'chunkyrow': settings.checkedStyle == 'visual' }" [class.disabled]="isCheckboxDisabled(option)" [ngClass]="settings.itemClasses"
+          [style.font-weight]="this.parents.indexOf(option.id)>=0?'bold':'normal'">
           {{ option.name }}
         </span>
       </span>
