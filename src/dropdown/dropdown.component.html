@@ -8,7 +8,7 @@
     (scroll)="settings.isLazyLoad ? checkScrollPosition($event) : null" (wheel)="settings.stopScrollPropagation ? checkScrollPropagation($event, scroller) : null"
     [class.pull-right]="settings.pullRight" [class.dropdown-menu-right]="settings.pullRight" [style.max-height]="settings.maxHeight"
     style="display: block; height: auto; overflow-y: auto;" (keydown.tab)="focusItem(1, $event)" (keydown.shift.tab)="focusItem(-1, $event)">
-    <div class="input-group input-group-merge search-container" *ngIf="settings.enableSearch && renderFilteredOptions.length > 1">
+    <div class="input-group input-group-merge search-container" *ngIf="settings.enableSearch">
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">
           <i class="fe fe-search" aria-hidden="true"></i>
@@ -23,12 +23,12 @@
       </div>
     </div>
     <div class="dropdown-divider" *ngIf="isVisible"></div>
-    <a role="menuitem" href="javascript:;" tabindex="-1" class="dropdown-item check-control check-control-check" *ngIf="settings.showCheckAll && !disabledSelection && renderFilteredOptions.length > 1"
+    <a role="menuitem" href="javascript:;" tabindex="-1" class="dropdown-item check-control check-control-check" *ngIf="settings.showCheckAll && !disabledSelection"
       (click)="checkAll()">
       <span style="width: 16px;"><span class="fe fe-check"></span></span>
       {{ texts.checkAll }}
     </a>
-    <a role="menuitem" href="javascript:;" tabindex="-1" class="dropdown-item check-control check-control-uncheck" *ngIf="settings.showUncheckAll && !disabledSelection && renderFilteredOptions.length > 1"
+    <a role="menuitem" href="javascript:;" tabindex="-1" class="dropdown-item check-control check-control-uncheck" *ngIf="settings.showUncheckAll && !disabledSelection"
       (click)="uncheckAll()">
       <span style="width: 16px;"><span class="fe fe-x"></span></span>
       {{ texts.uncheckAll }}
@@ -36,7 +36,7 @@
     <div *ngIf="settings.showCheckAll || settings.showUncheckAll" class="dropdown-divider"></div>
     <a *ngIf="!renderItems" href="javascript:;" class="dropdown-item empty">{{ texts.searchNoRenderText }}</a>
     <a *ngIf="renderItems && !renderFilteredOptions.length" href="javascript:;" class="dropdown-item empty">{{ texts.searchEmptyResult }}</a>
-    <a class="dropdown-item" href="javascript:;" *ngFor="let option of renderFilteredOptions; trackBy: trackById" [class.active]="isSelected(option)"
+    <a class="dropdown-item" href="javascript:;" *ngFor="let option of renderFilteredOptions; trackBy: trackById; let i = index;" [class.active]="isSelected(option)"
       [ngStyle]="getItemStyle(option)" [ngClass]="option.classes" [class.dropdown-header]="option.isLabel" [ssAutofocus]="option !== focusedItem"
       tabindex="-1" (click)="setSelected($event, option)" (keydown.space)="setSelected($event, option)" (keydown.enter)="setSelected($event, option)">
       <span *ngIf="!option.isLabel; else label" role="menuitem" tabindex="-1" [style.padding-left]="this.parents.length>0&&this.parents.indexOf(option.id)<0&&'30px'"
@@ -61,9 +61,9 @@
           </span>
           <ng-container *ngSwitchCase="'feather'">
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" [checked]="isSelected(option)" (click)="preventCheckboxCheck($event, option)" id="multiselectCheckbox{{option.id}}"
+              <input type="checkbox" [checked]="isSelected(option)" (click)="preventCheckboxCheck($event, option)" id="randMultiCheckbox{{i}}"
                 class="custom-control-input" [disabled]="isCheckboxDisabled(option)" [ngStyle]="getItemStyleSelectionDisabled()" />
-              <label for="multiselectCheckbox{{option.id}}" class="custom-control-label">{{option.name}}</label>
+              <label for="randMultiCheckbox{{i}}" class="custom-control-label">{{option.name}}</label>
             </div>
           </ng-container>
         </ng-container>

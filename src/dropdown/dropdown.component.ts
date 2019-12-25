@@ -196,7 +196,6 @@ export class MultiselectDropdownComponent
 
   ngOnInit() {
     this.title = this.texts.defaultTitle || '';
-
     this.filterControl.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(() => {
       this.updateRenderItems();
       if (this.settings.isLazyLoad) {
