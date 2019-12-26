@@ -16,9 +16,10 @@
       </div>
       <input type="text" class="form-control" ssAutofocus [formControl]="filterControl" [placeholder]="texts.searchPlaceholder"
         class="form-control" style="border-top-left-radius: inherit; border-bottom-left-radius: inherit;"
-        [ngStyle]="{'border-top-right': filterControl.value.length > 0 ? 'inherit' : null, 'border-bottom-right': filterControl.value.length > 0 ? 'inherit' : null}">
+        [style.border-top-right-radius]="filterControl.value.length > 0 ? 'inherit' : null" 
+        [style.border-bottom-right-radius]="filterControl.value.length > 0 ? 'inherit' : null">
       <div class="input-group-append" *ngIf="filterControl.value.length>0">
-        <button class="btn btn-outline-secondary" type="button" (click)="clearSearch($event)">
+        <button class="btn btn-outline-secondary btn-color-onhover" type="button" (click)="clearSearch($event)" style="display: flex;">
           <i class="fe fe-x-circle" style="color: black;"></i>
         </button>
       </div>
