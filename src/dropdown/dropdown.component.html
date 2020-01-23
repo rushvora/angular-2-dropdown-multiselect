@@ -41,8 +41,8 @@
     <a class="dropdown-item" href="javascript:;" *ngFor="let option of renderFilteredOptions; trackBy: trackById; let i = index;" [class.active]="isSelected(option)"
       [ngStyle]="getItemStyle(option)" [ngClass]="option.classes" [class.dropdown-header]="option.isLabel" [ssAutofocus]="option !== focusedItem"
       tabindex="-1" (click)="setSelected($event, option)" (keydown.space)="setSelected($event, option)" (keydown.enter)="setSelected($event, option)">
-      <span *ngIf="!option.isLabel; else label" role="menuitem" tabindex="-1" [style.padding-left]="this.parents.length>0&&this.parents.indexOf(option.id)<0&&'30px'"
-        [ngStyle]="getItemStyleSelectionDisabled()">
+      <span *ngIf="!option.isLabel; else label" role="menuitem" tabindex="-1" [ngStyle]="getItemStyleSelectionDisabled()"
+      [style.padding-left]="this.parents.length>0&&this.parents.indexOf(option.id)<0 && settings.checkedStyle !== 'feather' && '30px'">
         <ng-container [ngSwitch]="settings.checkedStyle">
           <input *ngSwitchCase="'checkboxes'" type="checkbox" [checked]="isSelected(option)" (click)="preventCheckboxCheck($event, option)"
             [disabled]="isCheckboxDisabled(option)" [ngStyle]="getItemStyleSelectionDisabled()"/>
@@ -62,10 +62,11 @@
             </div>
           </span>
           <ng-container *ngSwitchCase="'feather'">
-            <div class="custom-control custom-checkbox">
+            <div class="custom-control custom-checkbox" [ngClass]="{'ml-4' : this.parents.length > 0 && this.parents.indexOf(option.id) < 0}">
               <input type="checkbox" [checked]="isSelected(option)" (click)="preventCheckboxCheck($event, option)" id="randMultiCheckbox{{i}}"
                 class="custom-control-input" [disabled]="isCheckboxDisabled(option)" [ngStyle]="getItemStyleSelectionDisabled()" />
-              <label for="randMultiCheckbox{{i}}" class="custom-control-label">{{option.name}}</label>
+              <label for="randMultiCheckbox{{i}}" class="custom-control-label"><span
+                  [style.font-weight]="this.parents.indexOf(option.id)>=0?'bold':'normal'">{{option.name}}</span></label>
             </div>
           </ng-container>
         </ng-container>
