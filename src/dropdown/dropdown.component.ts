@@ -110,6 +110,7 @@ export class MultiselectDropdownComponent
   loadedValueIds = [];
   _focusBack = false;
   focusedItem: IMultiSelectOption | undefined;
+  showDividerAfterCheck = true;
 
   defaultSettings: IMultiSelectSettings = {
     closeOnClickOutside: true,
@@ -270,6 +271,14 @@ export class MultiselectDropdownComponent
     );
     this.renderFilteredOptions = this.renderItems ? this.filteredOptions : [];
     this.focusedItem = undefined;
+    // For when 1 parent and 1 child is shown --> no check/uncheck buttons --> no divider
+    if ((this.settings.showCheckAll || this.settings.showUncheckAll) && this.renderItems && this.renderFilteredOptions.length > 1) {
+      if (this.renderFilteredOptions.length === 2) {
+        if (this.renderFilteredOptions[0].id === this.renderFilteredOptions[1].parentId) {
+          this.showDividerAfterCheck = false;
+        }
+      }
+    }
   }
 
   applyFilters(options, value) {

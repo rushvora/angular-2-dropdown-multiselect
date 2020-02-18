@@ -25,19 +25,35 @@
       </div>
     </div>
     <div class="dropdown-divider" *ngIf="isVisible"></div>
-    <a role="menuitem" href="javascript:;" tabindex="-1" class="dropdown-item check-control check-control-check"
-       *ngIf="settings.showCheckAll && !disabledSelection && (renderItems && renderFilteredOptions.length > 1)"
-      (click)="checkAll()">
-      <span style="width: 16px;"><span class="fe fe-check"></span></span>
-      {{ texts.checkAll }}
-    </a>
-    <a role="menuitem" href="javascript:;" tabindex="-1" class="dropdown-item check-control check-control-uncheck" 
-      *ngIf="settings.showUncheckAll && !disabledSelection && (renderItems && renderFilteredOptions.length > 1)"
-      (click)="uncheckAll()">
-      <span style="width: 16px;"><span class="fe fe-x"></span></span>
-      {{ texts.uncheckAll }}
-    </a>
-    <div *ngIf="(settings.showCheckAll || settings.showUncheckAll) && (renderItems && renderFilteredOptions.length > 1)" class="dropdown-divider"></div>
+    <ng-container *ngIf="settings.showCheckAll && !disabledSelection && renderItems && renderFilteredOptions.length > 1">
+      <ng-container *ngIf="renderFilteredOptions.length === 2; else displayCheckAll">
+        <ng-container *ngIf="renderFilteredOptions[0]?.id !== renderFilteredOptions[1]?.parentId">
+          <ng-container *ngTemplateOutlet="displayCheckAll"></ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-template #displayCheckAll>
+      <a role="menuitem" href="javascript:;" tabindex="-1" class="dropdown-item check-control check-control-check"
+        (click)="checkAll()">
+        <span style="width: 16px;"><span class="fe fe-check"></span></span>
+        {{ texts.checkAll }}
+      </a>
+    </ng-template>
+    <ng-container *ngIf="settings.showUncheckAll && !disabledSelection && renderItems && renderFilteredOptions.length > 1">
+      <ng-container *ngIf="renderFilteredOptions.length === 2; else displayUncheckAll">
+        <ng-container *ngIf="renderFilteredOptions[0]?.id !== renderFilteredOptions[1]?.parentId">
+          <ng-container *ngTemplateOutlet="displayUncheckAll"></ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-template #displayUncheckAll>
+      <a role="menuitem" href="javascript:;" tabindex="-1" class="dropdown-item check-control check-control-uncheck"
+        (click)="uncheckAll()">
+        <span style="width: 16px;"><span class="fe fe-x"></span></span>
+        {{ texts.uncheckAll }}
+      </a>
+    </ng-template>
+    <div *ngIf="(settings.showCheckAll || settings.showUncheckAll) && (renderItems && renderFilteredOptions.length > 1) && showDividerAfterCheck" class="dropdown-divider"></div>
     <a *ngIf="!renderItems" href="javascript:;" class="dropdown-item empty">{{ texts.searchNoRenderText }}</a>
     <a *ngIf="renderItems && !renderFilteredOptions.length" href="javascript:;" class="dropdown-item empty">{{ texts.searchEmptyResult }}</a>
     <a class="dropdown-item" href="javascript:;" *ngFor="let option of renderFilteredOptions; trackBy: trackById; let i = index;" [class.active]="isSelected(option)"
