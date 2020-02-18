@@ -273,6 +273,7 @@ export class MultiselectDropdownComponent
     this.focusedItem = undefined;
     // For when 1 parent and 1 child is shown --> no check/uncheck buttons --> no divider
     if ((this.settings.showCheckAll || this.settings.showUncheckAll) && this.renderItems && this.renderFilteredOptions.length > 1) {
+      this.showDividerAfterCheck = true;
       if (this.renderFilteredOptions.length === 2) {
         if (this.renderFilteredOptions[0].id === this.renderFilteredOptions[1].parentId) {
           this.showDividerAfterCheck = false;
@@ -359,6 +360,7 @@ export class MultiselectDropdownComponent
   clearSearch(event: Event) {
     this.maybeStopPropagation(event);
     this.filterControl.setValue('');
+    this.showDividerAfterCheck = true;
   }
 
   toggleDropdown(e?: Event) {
